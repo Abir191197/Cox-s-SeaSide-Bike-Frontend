@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
+  { name: "Home", href: "/" },
+  { name: "Bikes", href: "/All" },
+  { name: "Review", href: "/Review" },
+  { name: "Company", href: "Company" },
 ];
 
 export default function Navbar() {
@@ -23,9 +25,9 @@ export default function Navbar() {
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt=""
+                className="h-8"
+                src="https://i.ibb.co/pwXGxFY/logo-no-background.png"
+                alt="LOGo"
               />
             </a>
           </div>
@@ -40,18 +42,20 @@ export default function Navbar() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="text-sm font-semibold leading-6 text-white">
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-sm font-semibold leading-6 text-white">
+            <Link
+              to="/Login"
+              className="text-sm font-semibold leading-6 text-white">
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
         </nav>
         <Dialog
@@ -60,16 +64,16 @@ export default function Navbar() {
           open={mobileMenuOpen}
           onClose={setMobileMenuOpen}>
           <div className="fixed inset-0 z-50" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-300 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
             <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
+              <Link to="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                  src="https://i.ibb.co/pwXGxFY/logo-no-background.png"
                   alt=""
                 />
-              </a>
+              </Link>
               <button
                 type="button"
                 className="-m-2.5 rounded-md p-2.5 text-gray-400"
@@ -82,20 +86,20 @@ export default function Navbar() {
               <div className="-my-6 divide-y divide-gray-500/25">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
-                    href="#"
+                  <Link
+                    to="/Login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800">
                     Log in
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -121,68 +125,60 @@ export default function Navbar() {
           />
         </div>
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-              Announcing our next round of funding.{" "}
-              <a href="#" className="font-semibold text-white">
-                <span className="absolute inset-0" aria-hidden="true" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-              Data to enrich your online business
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-7">
+              Explore New Destinations with Your Perfect Ride
             </h1>
+
             <div className="bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                
-
                 <form className="mt-5 sm:flex sm:items-center">
                   <div className="w-full sm:max-w-xs">
-                    <label htmlFor="email" className="sr-only">
-                      Email
+                    <label htmlFor="destination" className="sr-only">
+                      Where to go?
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="you@example.com"
-                    />
+                    <select
+                      name="destination"
+                      id="destination"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <option value="" disabled selected>
+                        Select Destination
+                      </option>
+                      <option value="scenic-routes">Scenic Routes</option>
+                      <option value="off-road-trails">Off-Road Trails</option>
+                      <option value="long-distance-rides">
+                        Long Distance Rides
+                      </option>
+                    </select>
                   </div>
-                  <div className="w-full sm:max-w-xs">
-                    <label htmlFor="email" className="sr-only">
-                      Email
+
+                  {/* Bike CC Option */}
+                  <div className="w-full sm:max-w-xs mt-3 sm:mt-0 sm:ml-3">
+                    <label htmlFor="bike-cc" className="sr-only">
+                      Bike CC
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="you@example.com"
-                    />
+                    <select
+                      name="bike-cc"
+                      id="bike-cc"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <option value="" disabled selected>
+                        Select Bike Type
+                      </option>
+                      <option value="100-150cc">100-150cc</option>
+                      <option value="150-250cc">150-250cc</option>
+                      <option value="250-500cc">250-500cc</option>
+                      <option value="500cc-plus">500cc and above</option>
+                    </select>
                   </div>
+
+                  {/* Submit Button */}
                   <button
                     type="submit"
-                    className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto">
-                    Save
+                    className=" mt-3 inline-flex w-10 items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-20">
+                    <MagnifyingGlassIcon />
                   </button>
                 </form>
               </div>
-            </div>{" "}
-            
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
-                Get started
-              </a>
-              <a
-                href="#"
-                className="text-sm font-semibold leading-6 text-white">
-                Learn more <span aria-hidden="true">→</span>
-              </a>
             </div>
           </div>
         </div>
@@ -198,6 +194,7 @@ export default function Navbar() {
           />
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

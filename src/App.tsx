@@ -1,13 +1,18 @@
 
-import  Navbar  from "./pages/Landing Page/Navbar";
+import { Outlet } from "react-router-dom";
+import Navbar from "./pages/Landing Page/Navbar";
 
 const App = () => {
 
    
     return (
-        <div className="">
-          <Navbar></Navbar>
-        </div>
+      <div>
+        <Navbar></Navbar>
+
+      
+     
+        <Outlet></Outlet>
+      </div>
     );
 };
 
