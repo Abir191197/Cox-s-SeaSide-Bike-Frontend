@@ -3,9 +3,9 @@ import { baseApi } from "../baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    FormLogin: builder.mutation({
       query: (userInfo) => ({
-        url: "auth/login", // Adjust this URL based on your server's endpoint
+        url: "/auth/login", // Adjust this URL based on your server's endpoint
         method: "POST",
         body: userInfo,
       }),
@@ -15,4 +15,4 @@ const authApi = baseApi.injectEndpoints({
   overrideExisting: false, // Ensures existing endpoints aren't overridden
 });
 
-export default authApi;
+export const {useFormLoginMutation} = authApi;

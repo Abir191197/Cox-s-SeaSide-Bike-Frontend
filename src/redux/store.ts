@@ -13,7 +13,7 @@ import cartReducer from "./features/cartSlice";
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["token"], // Persist only the token
+ 
 };
 
 const cartPersistConfig = {

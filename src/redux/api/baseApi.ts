@@ -3,10 +3,10 @@ import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://bike-rental-service-backend-two.vercel.app/api",
-  credentials: "include",
+  credentials: "include", // Ensure cookies are included in requests
 
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    const token = (getState() as RootState).auth.token; // Replace with your actual state slice
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
