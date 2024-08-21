@@ -21,7 +21,8 @@ export default function Registration() {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const response = await registerUser(data).unwrap();
+      
+       await registerUser(data).unwrap();
       toast.success("Registration successful! Please login now.", {
         position: "top-left",
         autoClose: 5000,
@@ -35,6 +36,7 @@ export default function Registration() {
       });
       // Redirect to login page after successful registration
       navigate("/login");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Registration failed. Please try again.", {
         position: "top-left",
