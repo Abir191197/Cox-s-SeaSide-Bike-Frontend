@@ -71,7 +71,7 @@ export default function Navbar() {
                 <img
                   className="h-8 w-auto"
                   src="https://i.ibb.co/pwXGxFY/logo-no-background.png"
-                  alt=""
+                  alt="LOGo"
                 />
               </Link>
               <button
@@ -109,8 +109,8 @@ export default function Navbar() {
 
       <div className="relative isolate overflow-hidden pt-14">
         <img
-          src="https://images.unsplash.com/photo-1626239889138-a7e4f971059e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
+          src="https://res.cloudinary.com/dymnilfcs/image/upload/v1724301025/gvu1y1ejw28k1uswj4os.jpg"
+          alt="bg image"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
         <div

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://bike-rental-service-backend-two.vercel.app/api",
+  baseUrl:"https://bike-rental-service-backend-two.vercel.app/api",
   credentials: "include", // Ensure cookies are included in requests
 
   prepareHeaders: (headers, { getState }) => {

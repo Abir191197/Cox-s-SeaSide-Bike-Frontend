@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+// Ensure path is correct
+import { useEffect } from "react";
 import { useFormLoginMutation } from "../redux/api/auth API Management/authApi";
-import { setUser, TUser } from "../redux/api/auth API Management/authSlice";
 import { verifyToken } from "../../utiles/verifyToken";
-
+import { setUser, TUser } from "../redux/api/auth API Management/authSlice";
 
 interface LoginFormInputs {
   email: string;
@@ -17,10 +18,11 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-  const [formLogin,{isSuccess}] = useFormLoginMutation();
+  const [formLogin] = useFormLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Handle traditional form login
   const onSubmit = async (data: LoginFormInputs) => {
     const userInfo = {
       email: data.email,
@@ -29,24 +31,43 @@ export default function Login() {
 
     try {
       const res = await formLogin(userInfo).unwrap();
-      const user: TUser = verifyToken(res.token) as unknown as TUser;
+      const user: TUser = verifyToken(res.token) as TUser;
 
       // Set the user in Redux state with their token
       dispatch(setUser({ user, token: res.token }));
 
-      // Navigate to the user's role-specific dashboard or page
-      //navigate(`/${user.role}`);
-      navigate("/dashboard")
-
+      // Navigate to the user's dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       // Handle login error here (e.g., show error notification)
     }
   };
-console.log(isSuccess);
-  const handleGoogleLogin = async () => {
-    window.open(`http://localhost:3000/api/auth/google`, "_self");
+
+  // Handle Google OAuth login
+  const handleGoogleLogin = () => {
+    window.open(
+      `https://bike-rental-service-backend-two.vercel.app/api/auth/google`,
+      "_self"
+    );
   };
+
+  // Check for token after Google OAuth login
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get(
+      "access_token"
+    );
+
+    if (token) {
+      const user: TUser = verifyToken(token) as TUser;
+
+      // Set the user in Redux state with their token
+      dispatch(setUser({ user, token }));
+
+      // Navigate to the user's dashboard
+      navigate("/dashboard");
+    }
+  }, [dispatch, navigate]);
 
   return (
     <>
