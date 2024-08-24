@@ -1,22 +1,43 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import TrustedUserValue from "./TrustedUserValue";
+import Testimonials from "./Testimonials";
+import OurOffice from "./OurOffice";
+import OurTeam from "./OurTeam";
+import FaqSection from "./FaqSection";
+import FeaturesBike from "./FeaturesBike";
+import "aos/dist/aos.css";
+import AOS from "aos"; // Import AOS JS
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Bikes", href: "/All" },
-  { name: "Review", href: "/Review" },
-  { name: "Company", href: "Company" },
+  { name: "Bikes", href: "#Bike" },
+  { name: "Review", href: "#Review" },
+  { name: "About Us", href: "#AboutUs" },
+  { name: "Company", href: "#Company" },
 ];
 
 export default function Navbar() {
-  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animation in milliseconds
+      easing: "ease-in-out", // Easing function
+      once: true, // Whether animation should happen only once
+    });
+  }, []); // Empty dependency array means this effect runs once on mount
+
   return (
-    <div className="bg-gray-900">
+    <div>
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
@@ -42,12 +63,12 @@ export default function Navbar() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <Link
+              <a
                 key={item.name}
-                to={item.href}
+                href={item.href}
                 className="text-sm font-semibold leading-6 text-white">
                 {item.name}
-              </Link>
+              </a>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -107,7 +128,7 @@ export default function Navbar() {
         </Dialog>
       </header>
 
-      <div className="relative isolate overflow-hidden pt-14">
+      <div className="relative isolate overflow-hidden pt-10">
         <img
           src="https://res.cloudinary.com/dymnilfcs/image/upload/v1724301025/gvu1y1ejw28k1uswj4os.jpg"
           alt="bg image"
@@ -194,7 +215,23 @@ export default function Navbar() {
           />
         </div>
       </div>
-      <Footer></Footer>
+      <div id="Bike" data-aos="fade-up">
+        <FeaturesBike />
+      </div>
+      <div>
+        <TrustedUserValue />
+      </div>
+      <div id="Review" data-aos="zoom-in">
+        <Testimonials />
+      </div>
+      <div id="Company" data-aos="zoom-in-up">
+        <OurOffice />
+      </div>
+      <div id="AboutUs" data-aos="zoom-in-right">
+        <OurTeam />
+      </div>
+      <FaqSection />
+      <Footer />
     </div>
   );
 }
