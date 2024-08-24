@@ -1,4 +1,4 @@
-import  { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import CountUp from "react-countup";
 
 const stats = [
@@ -10,9 +10,11 @@ const stats = [
 
 export default function TrustedUserValue() {
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const currentRef = ref.current;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -23,13 +25,13 @@ export default function TrustedUserValue() {
       { threshold: 0.5 } // Adjust this value as needed
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -58,7 +60,6 @@ export default function TrustedUserValue() {
                     start={0}
                     end={stat.value}
                     duration={5}
-                    prefix={stat.prefix || ""}
                     suffix={stat.suffix || ""}
                   />
                 )}
