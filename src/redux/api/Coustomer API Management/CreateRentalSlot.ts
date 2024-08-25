@@ -2,7 +2,7 @@ import { baseApi } from "../baseApi";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    rentBikeInfo: builder.mutation({
+    CreateRentalSlot: builder.mutation({
       query: (rentalInfo) => ({
         url: "/rentals",
         method: "POST",
@@ -13,4 +13,4 @@ const userApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useRentBikeInfoMutation } = userApi;
+export const { useCreateRentalSlotMutation } = userApi;

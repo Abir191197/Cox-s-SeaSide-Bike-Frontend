@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
 
 
   const token = useAppSelector(useCurrentToken);
-  console.log(token);
+
 
   let user: TUser | null = null;
   

@@ -4,7 +4,7 @@ const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllBike: builder.query({
       query: () => ({
-        url: "/bike",
+        url: "/bikes",
         method: "GET",
         
       }),

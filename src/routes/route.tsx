@@ -2,33 +2,32 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
-
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminDashboard from "../pages/Admin Page/AdminDashboard";
-import UserDashboard from "../pages/User Page/UserDashboard";
+
 import { userPaths } from "./user.route";
 import { adminPaths } from "./admin.route";
-
+import UserDashboard from "../pages/User Page/UserDashboard";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App></App>,
+    element: <App />,
     children: [],
   },
   {
-    path: "/Login",
-    element: <Login></Login>,
+    path: "/login",
+    element: <Login />,
   },
   {
-    path: "/Registration",
-    element: <Registration></Registration>,
+    path: "/registration",
+    element: <Registration />,
   },
   {
     path: "/user",
     element: (
       <ProtectedRoute role="user">
-        <UserDashboard></UserDashboard>
+        <UserDashboard />
       </ProtectedRoute>
     ),
     children: userPaths,
@@ -37,7 +36,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: (
       <ProtectedRoute role="admin">
-       <AdminDashboard></AdminDashboard>
+        <AdminDashboard />
       </ProtectedRoute>
     ),
     children: adminPaths,
