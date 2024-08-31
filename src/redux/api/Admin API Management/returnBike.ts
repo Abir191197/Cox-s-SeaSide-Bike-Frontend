@@ -7,6 +7,7 @@ const adminApi = baseApi.injectEndpoints({
         url: `/rentals/${id}/return`,
         method: "PUT",
       }),
+      invalidatesTags: ["RentalFetch"],
     }),
   }),
   overrideExisting: false,

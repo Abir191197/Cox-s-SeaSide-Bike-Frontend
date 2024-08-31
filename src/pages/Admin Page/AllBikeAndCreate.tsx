@@ -1,19 +1,28 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/20/solid";
 import { SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 import { TBike } from "../../../utiles/BikeType";
 
-
+import { useDeleteBikeMutation } from "../../redux/api/Admin API Management/deleteBike";
 import { selectCurrentUser } from "../../redux/api/auth API Management/authSlice";
 import { useGetAllBikeQuery } from "../../redux/api/Coustomer API Management/getAllBike";
 import Footer from "../Landing Page/Footer";
 import BookNowAndPay from "../User Page/BookNowAndPay";
+import BikeEditModal from "./BikeEditModal";
+import CreateBikeForm from "./CreateBikeForm";
 import Loading from "../../components/Loading";
 
-export default function AllBike() {
+export default function AllBikeAndCreate() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateBikeModalOpen, setIsCreateBikeModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBike, setSelectedBike] = useState<TBike | null>(null);
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const [page, setPage] = useState(1);
@@ -29,6 +38,37 @@ export default function AllBike() {
     limit,
     sort,
   });
+
+  // Handle delete bike
+  const [deleteBikeId] = useDeleteBikeMutation();
+
+  const handleDeleteBike = async (bikeId: string) => {
+    try {
+      await deleteBikeId(  bikeId ).unwrap();
+      toast.success("Bike Deleted Successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Failed to delete bike: ${error.message}`);
+      } else {
+        toast.error("An unknown error occurred while deleting the bike.");
+      }
+    }
+  };
+
+  // Handle Edit Modal
+  const handleOpenEditModal = (bike: TBike) => {
+    setSelectedBike(bike);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => setIsEditModalOpen(false);
+
+  // Handle Create Bike Modal
+  const handleOpenCreateBikeModal = () => {
+    setIsCreateBikeModalOpen(true);
+  };
+
+  const handleCloseCreateBikeModal = () => setIsCreateBikeModalOpen(false);
 
   const handleOpenModal = (bike: TBike) => {
     setSelectedBike(bike);
@@ -63,6 +103,13 @@ export default function AllBike() {
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
             Trending Bikes
           </h2>
+          <div className="flex space-x-4">
+            <button
+              onClick={handleOpenCreateBikeModal}
+              className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+              Create New Bike
+            </button>
+          </div>
         </div>
 
         {/* Search and Filter */}
@@ -99,6 +146,19 @@ export default function AllBike() {
             <div
               key={Bike._id}
               className="bg-white rounded-lg shadow-2xl hover:shadow-lg transition-shadow duration-300 relative">
+              <div className="absolute top-2 right-2 flex space-x-2">
+                <button
+                  className="text-blue-500 hover:text-blue-600"
+                  onClick={() => handleOpenEditModal(Bike)}>
+                  <PencilIcon className="h-5 w-5" />
+                </button>
+
+                <button
+                  className="text-red-500 hover:text-red-600"
+                  onClick={() => handleDeleteBike(Bike._id)}>
+                  <TrashIcon className="h-5 w-5" />
+                </button>
+              </div>
               <div className="w-full h-50 rounded-t-lg overflow-hidden">
                 {Bike.imgSrc && Bike.imgSrc.length > 0 ? (
                   <img
@@ -121,10 +181,8 @@ export default function AllBike() {
                 <p className="mt-2 text-xl font-semibold text-gray-900">
                   ${Bike.PerHour} Per Hour
                 </p>
-                <p className="mt-1 text-sm font-medium text-black">
-                  {Bike?.engine?.displacement
-                    ? parseFloat(Bike.engine.displacement).toFixed(0) 
-                    : "N/A"} CC
+                <p className="mt-1 text-sm text-gray-500">
+                  {Bike?.engine?.displacement}{" "}
                 </p>
                 <div className="mt-4 flex justify-between space-x-4">
                   <button
@@ -181,6 +239,12 @@ export default function AllBike() {
       {/* Modals */}
       {isModalOpen && selectedBike && (
         <BookNowAndPay BikeData={selectedBike} onClose={handleCloseModal} />
+      )}
+      {isEditModalOpen && selectedBike && (
+        <BikeEditModal BikeData={selectedBike} onClose={handleCloseEditModal} />
+      )}
+      {isCreateBikeModalOpen && (
+        <CreateBikeForm onClose={handleCloseCreateBikeModal} />
       )}
 
       <Footer />

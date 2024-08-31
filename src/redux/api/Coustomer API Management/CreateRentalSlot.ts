@@ -8,6 +8,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: rentalInfo,
       }),
+      invalidatesTags:["Booking","RentalFetch"]
     }),
   }),
   overrideExisting: false,

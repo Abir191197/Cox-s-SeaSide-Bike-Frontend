@@ -2,8 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectCurrentUser } from "../../redux/api/auth API Management/authSlice";
 import { useGetWhoLoginQuery } from "../../redux/api/auth API Management/WhoLoginNowAPI";
-
-import Loading from "../../components/Loading";
+import Loader from "../../components/Loader";
 
 const stats = [
   { label: "Vacation days left", value: 12 },
@@ -11,13 +10,13 @@ const stats = [
   { label: "Personal days left", value: 2 },
 ];
 
-export default function UserDash() {
+export default function AdminDash() {
   const user = useSelector(selectCurrentUser);
 
   const { data: UserData, isLoading } = useGetWhoLoginQuery(undefined);
 
   if (isLoading) {
-    return <Loading></Loading>;;
+    return <Loader></Loader>;
   }
 
   return (
@@ -45,7 +44,7 @@ export default function UserDash() {
                 {UserData?.data?.name || "Guest"}
               </p>
               <p className="text-sm font-medium text-gray-600">
-                {UserData?.data?.role|| "User"}
+                {UserData?.data?.role || "User"}
               </p>
             </div>
           </div>

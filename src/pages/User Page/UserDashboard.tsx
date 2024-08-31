@@ -1,12 +1,12 @@
 import { Disclosure, Menu } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/api/auth API Management/authSlice";
 
 const navigation = [
   { name: "Dashboard", href: "/user/dashboard" },
   { name: "Bikes", href: "/user/Bikes" },
-  { name: "Paid", href: "/user/Paid" },
-  { name: "Unpaid", href: "/user/unpaid" },
   { name: "My Rentals", href: "/user/Rentals" },
 ];
 
@@ -16,6 +16,13 @@ function classNames(...classes: string[]) {
 
 export default function UserDashboard() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-full">
@@ -58,7 +65,9 @@ export default function UserDashboard() {
                   <div className="ml-4 flex items-center md:ml-6">
                     <Menu as="div" className="relative ml-3">
                       <Menu.Button className="flex max-w-xs items-center rounded-full bg-indigo-200 text-sm focus:outline-none focus:ring-2 ">
-                        <button className="h-8 w-20">LogOut</button>
+                        <button onClick={handleLogout} className="h-8 w-20">
+                          LogOut
+                        </button>
                       </Menu.Button>
                     </Menu>
                   </div>
@@ -99,7 +108,9 @@ export default function UserDashboard() {
               </div>
               <div className="border-t border-indigo-700 pb-3 pt-4">
                 <div className="flex items-center px-5">
-                  <button className="flex-shrink-0">LogOut</button>
+                  <button onClick={handleLogout} className="flex-shrink-0">
+                    LogOut
+                  </button>
                 </div>
               </div>
             </Disclosure.Panel>

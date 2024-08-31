@@ -7,6 +7,7 @@ const userApi = baseApi.injectEndpoints({
         url: "/rentals",
         method: "GET",
       }),
+      providesTags:["Booking"]
     }),
   }),
   overrideExisting: false,

@@ -7,6 +7,7 @@ const AdminApi = baseApi.injectEndpoints({
         url: "/rentals/AllRentals",
         method: "GET",
       }),
+      providesTags:["RentalFetch"]
     }),
   }),
   overrideExisting: false,

@@ -2,15 +2,15 @@ import { baseApi } from "../baseApi";
 
 const AdminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    UpdatedUserData: builder.mutation({
-      query: (bikeInfo) => ({
+    CreateBike: builder.mutation({
+      query: (createBike) => ({
         url: "/bikes",
         method: "POST",
-        body: bikeInfo,
+        body: createBike,
       }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useUpdatedUserDataMutation } = AdminApi;
+export const { useCreateBikeMutation } = AdminApi;

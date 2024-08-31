@@ -1,7 +1,9 @@
 import AllBikes from "../pages/User Page/AllBikes";
-import BookNowAndPay from "../pages/User Page/BookNowAndPay";
+import EditProfile from "../pages/User Page/EditProfile";
+
 import MyRentals from "../pages/User Page/MyRentals";
 import SingleBikeOverView from "../pages/User Page/SingleBikeOverView";
+
 import UserDash from "../pages/User Page/UserDash";
 
 
@@ -15,29 +17,20 @@ export const userPaths = [
     element: <UserDash />,
   },
   {
+    path: "EditProfile",
+    element: <EditProfile />,
+  },
+  {
     path: "Bikes",
     element: <AllBikes />,
   },
   {
-    path: "Bikes/:id",
+    path: "Bike/:id",
     element: <SingleBikeOverView />,
   },
-  {
-    path: "paid",
-    element: <SingleBikeOverView />,
-  },
+ 
   {
     path: "Rentals",
     element: <MyRentals />,
-  },
-  {
-    path: "unpaid",
-    element: (
-      <BookNowAndPay
-        onClose={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-    ),
   },
 ];
