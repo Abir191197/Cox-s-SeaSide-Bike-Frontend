@@ -4,7 +4,6 @@ import { useGETAllRentalBikesQuery } from "../../redux/api/Admin API Management/
 import { useReturnBikeMutation } from "../../redux/api/Admin API Management/returnBike";
 import Footer from "../Landing Page/Footer";
 import { DateTime } from "luxon"; // Import Luxon for time zone handling
-import { Rental, Bike } from "../../types"; // Import types if defined
 
 export default function AllRental() {
   // Fetch all rental data
