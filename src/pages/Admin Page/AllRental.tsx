@@ -3,7 +3,8 @@ import Loading from "../../components/Loading";
 import { useGETAllRentalBikesQuery } from "../../redux/api/Admin API Management/AllRentals";
 import { useReturnBikeMutation } from "../../redux/api/Admin API Management/returnBike";
 import Footer from "../Landing Page/Footer";
-
+import { DateTime } from "luxon"; // Import Luxon for time zone handling
+import { Rental, Bike } from "../../types"; // Import types if defined
 
 export default function AllRental() {
   // Fetch all rental data
@@ -11,36 +12,26 @@ export default function AllRental() {
     useGETAllRentalBikesQuery(undefined);
 
   // Define the return bike mutation
-  const [ReturnBookingId, {  isLoading: isReturning }] =
-    useReturnBikeMutation();
+  const [ReturnBookingId, { isLoading: isReturning }] = useReturnBikeMutation();
 
   // Handle the bike return
   const handleReturnId = async (rentalId: string) => {
     try {
       // Call the mutation with the rentalId and unwrap the response
-      const res = (await ReturnBookingId(
-        rentalId
-      ).unwrap()) ;
+      const res = await ReturnBookingId(rentalId).unwrap();
 
       // Check if the response indicates success
       if (res.success) {
         toast.success(res.message || "Bike returned successfully");
       } else {
-        toast.error("Bike return failed");
+        toast.error(res.message || "Bike return failed");
       }
     } catch (error) {
       toast.error("Bike return failed");
     }
   };
 
-  if (AllRentalLoading) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  }
-  if (isReturning) {
+  if (AllRentalLoading || isReturning) {
     return (
       <div>
         <Loading />
@@ -148,12 +139,16 @@ export default function AllRental() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black">
-                          {new Date(rental.startTime).toLocaleString()}
+                          {DateTime.fromISO(rental.startTime)
+                            .setZone("Asia/Dhaka")
+                            .toLocaleString(DateTime.DATETIME_MED)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black">
                           {rental.returnTime === null
                             ? "Not Returned"
-                            : new Date(rental.returnTime).toLocaleString()}
+                            : DateTime.fromISO(rental.returnTime)
+                                .setZone("Asia/Dhaka")
+                                .toLocaleString(DateTime.DATETIME_MED)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black text-center">
                           <span
@@ -183,7 +178,7 @@ export default function AllRental() {
                 </table>
               </div>
             </div>{" "}
-            <Footer></Footer>
+            <Footer />
           </div>
         </div>
       </div>
