@@ -32,7 +32,7 @@ export default function BookNowAndPay({
   
 
         if (res?.data?.payment_url) {
-          window.location.href=(res.data.payment_url, "_blank");
+          window.open(res.data.payment_url, "_blank");
         } else {
           console.error("Payment URL not found in the response.");
         }
