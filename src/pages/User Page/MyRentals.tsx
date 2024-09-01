@@ -4,7 +4,10 @@ import { useGetAllRentalBikeInfoQuery } from "../../redux/api/Coustomer API Mana
 import UnpaidRentals from "./UnpaidRentals";
 import PaidRentals from "./PaidRentals";
 import Loading from "../../components/Loading";
-
+interface Rental {
+  totalCostPayment: string;
+  // Add other properties of rental here if needed
+}
 const tabs = [
   { name: "Unpaid", href: "#", icon: UserIcon, current: true },
   { name: "Paid", href: "#", icon: CreditCardIcon, current: false },
@@ -29,22 +32,23 @@ export default function MyRentals() {
     setCurrentTab(tabName);
   };
 
-  const formatDateTime = (dateTimeString: string | number | Date) => {
-    if (!dateTimeString) {
-      return "Not returned yet";
-    }
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Date(dateTimeString).toLocaleString(undefined, options);
-  };
+ const formatDateTime = (dateTimeString: string | number | Date) => {
+   if (!dateTimeString) {
+     return "Not returned yet";
+   }
+   const options: Intl.DateTimeFormatOptions = {
+     year: "numeric",
+     month: "long",
+     day: "numeric",
+     hour: "numeric",
+     minute: "numeric",
+   };
+   return new Date(dateTimeString).toLocaleString(undefined, options);
+ };
+
 
   const filteredRentals =
-    RentalData?.data?.bookings.filter((rental: any) =>
+    RentalData?.data?.bookings.filter((rental: Rental) =>
       currentTab === "Unpaid"
         ? rental.totalCostPayment === "Pending"
         : rental.totalCostPayment === "Paid"

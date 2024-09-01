@@ -1,15 +1,29 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {  XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { usePricePerHourUpdatedMutation } from "../../redux/api/Admin API Management/updatedBike";
 
+// Define the interface for BikeData and type for onClose
+interface BikeData {
+  _id: string;
+  PerHour: number;
+  imgSrc: string[];
+  fullbike_name: string;
+}
 
+type OnClose = () => void;
 
-export default function BikeEditModal({ BikeData, onClose }) {
-  // State to hold the updated PerHour value
+interface BikeEditModalProps {
+  BikeData: BikeData;
+  onClose: OnClose;
+}
+
+export default function BikeEditModal({
+  BikeData,
+  onClose,
+}: BikeEditModalProps) {
   const [PerHour, setPerHour] = useState(BikeData?.PerHour || 0);
 
-  // Mutation hook for updating PerHour
   const [updatePricePerHour, { isLoading, isError }] =
     usePricePerHourUpdatedMutation();
 
@@ -82,11 +96,6 @@ export default function BikeEditModal({ BikeData, onClose }) {
                         <p className="text-2xl text-gray-900">
                           ${BikeData?.PerHour} per hour
                         </p>
-
-                        {/* Reviews */}
-                       
-
-                       
                       </section>
 
                       <section

@@ -1,5 +1,5 @@
-import Footer from "../Landing Page/Footer";
 
+import Footer from "../Landing Page/Footer";
 
 function PaidRentals({
   rentals,
@@ -9,12 +9,12 @@ function PaidRentals({
   formatDateTime: (dateTimeString: string | number | Date) => string;
 }) {
   return (
-    <div>
-      <h3 className="text-lg font-semibold">Paid Rentals</h3>
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-          {rentals.map((RentalInfo: any) => (
-            <div key={RentalInfo._id}>
+    <div className="bg-slate-200">
+      <h3 className="text-lg font-semibold text-center py-4">Paid Rentals</h3>
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {rentals.map((RentalInfo) => (
+            <div key={RentalInfo._id} className="flex flex-col h-full">
               <div className="relative">
                 <div className="relative h-72 w-full overflow-hidden rounded-lg">
                   <img
@@ -58,7 +58,7 @@ function PaidRentals({
           ))}
         </div>
       </div>
-      <Footer></Footer>;
+      <Footer />
     </div>
   );
 }

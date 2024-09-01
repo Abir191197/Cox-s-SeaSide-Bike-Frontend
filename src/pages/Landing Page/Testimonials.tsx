@@ -14,7 +14,7 @@ const Testimonials = () => {
                 <div className="flex items-center gap-4">
                   <img
                     alt=""
-                    src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                    src="https://media.licdn.com/dms/image/v2/D5603AQHGGQlgjOp0uQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1716038859902?e=1730332800&v=beta&t=qtMY4h0dtQDy6I_351kIBij_jzMka5MlXq48cQ9jUfM"
                     className="size-14 rounded-full object-cover"
                   />
 
@@ -78,7 +78,7 @@ const Testimonials = () => {
                 <div className="flex items-center gap-4">
                   <img
                     alt=""
-                    src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                    src="https://scontent.fdac14-1.fna.fbcdn.net/v/t39.30808-6/391692967_3603912496557422_8747645745775188041_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=tBqWp1qtwDAQ7kNvgHO4piH&_nc_ht=scontent.fdac14-1.fna&oh=00_AYBpfnT1tARysGauoTZYsqTYEwND015eIdsaugqMvh19lA&oe=66D94C0D"
                     className="size-14 rounded-full object-cover"
                   />
 
@@ -185,7 +185,7 @@ const Testimonials = () => {
                     </div>
 
                     <p className="mt-0.5 text-lg font-medium text-gray-900">
-                     Dhrubo Biswas
+                      Dhrubo Biswas
                     </p>
                   </div>
                 </div>

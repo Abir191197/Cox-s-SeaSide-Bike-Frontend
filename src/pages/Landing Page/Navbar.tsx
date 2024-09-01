@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import  { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -17,6 +16,7 @@ import FeaturesBike from "./FeaturesBike";
 import "aos/dist/aos.css";
 import AOS from "aos"; // Import AOS JS
 
+
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Bikes", href: "#Bike" },
@@ -27,6 +27,8 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  
 
   useEffect(() => {
     AOS.init({
@@ -34,11 +36,14 @@ export default function Navbar() {
       easing: "ease-in-out", // Easing function
       once: true, // Whether animation should happen only once
     });
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
+
+ 
 
   return (
     <div>
       <header className="absolute inset-x-0 top-0 z-50">
+   
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global">
@@ -162,14 +167,10 @@ export default function Navbar() {
                       name="destination"
                       id="destination"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                      <option value="" disabled selected>
-                        Select Destination
-                      </option>
-                      <option value="scenic-routes">Scenic Routes</option>
-                      <option value="off-road-trails">Off-Road Trails</option>
-                      <option value="long-distance-rides">
-                        Long Distance Rides
-                      </option>
+                      <option value="">Select Destination</option>
+                      <option value="scenic-routes">Inani Beach</option>
+                      <option value="off-road-trails">Himchori Mountain</option>
+                      <option value="long-distance-rides">Marine Drive</option>
                     </select>
                   </div>
 
@@ -182,9 +183,7 @@ export default function Navbar() {
                       name="bike-cc"
                       id="bike-cc"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                      <option value="" disabled selected>
-                        Select Bike Type
-                      </option>
+                      <option value="">Select Bike Type</option>
                       <option value="100-150cc">100-150cc</option>
                       <option value="150-250cc">150-250cc</option>
                       <option value="250-500cc">250-500cc</option>
@@ -193,11 +192,13 @@ export default function Navbar() {
                   </div>
 
                   {/* Submit Button */}
-                  <button
+
+                  <Link
+                    to="/Login"
                     type="submit"
                     className=" mt-3 inline-flex w-10 items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-20">
                     <MagnifyingGlassIcon />
-                  </button>
+                  </Link>
                 </form>
               </div>
             </div>
@@ -215,9 +216,11 @@ export default function Navbar() {
           />
         </div>
       </div>
+
       <div id="Bike" data-aos="fade-up">
         <FeaturesBike />
       </div>
+
       <div>
         <TrustedUserValue />
       </div>

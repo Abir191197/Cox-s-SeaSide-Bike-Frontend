@@ -5,26 +5,39 @@ const people = [
     name: "Michael Foster",
     role: "Co-Founder / CTO",
     imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      "https://media.licdn.com/dms/image/v2/D5603AQHGGQlgjOp0uQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1716038859902?e=1730332800&v=beta&t=qtMY4h0dtQDy6I_351kIBij_jzMka5MlXq48cQ9jUfM",
   },
   {
     name: "Ayesha Rahman",
     role: "Lead Designer",
     imageUrl:
-      "https://images.unsplash.com/photo-1591425868696-0db1b488d0ea?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGF5ZXNoYXxlbnwwfHx8fDE2NjAxNTY3Njc&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Rafiq Ahmed",
     role: "Senior Developer",
     imageUrl:
-      "https://images.unsplash.com/photo-1607517713965-d6f0b05fef73?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fHJhcmlxfGVufDB8fHx8MTY2MDg1MTMzNg&ixlib=rb-1.2.1&q=80&w=400",
+      "https://images.unsplash.com/photo-1489980557514-251d61e3eeb6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Jasmine Khatun",
     role: "Product Manager",
     imageUrl:
-      "https://images.unsplash.com/photo-1603579127404-401ad95d7d68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGphc2luZSUyMGtodXR1bnxlbnwwfHx8fDE2NjAxNTY3Njc&ixlib=rb-1.2.1&q=80&w=400",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
+  {
+    name: "Sara Islam",
+    role: "Product Manager",
+    imageUrl:
+      "https://plus.unsplash.com/premium_photo-1688739352540-a75b102d8551?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    name: "Jami Khan",
+    role: "Product Manager",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+
   // Add more people as needed
 ];
 

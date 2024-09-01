@@ -7,7 +7,7 @@ const SentNewRegistrationDataAPI = baseApi.injectEndpoints({
         // Set default role to "admin" if not provided
         const updatedData = {
           ...data,
-          role: data.role || "admin", // Set the default role
+          role: data.role || "user", // Set the default role
         };
 
         return {

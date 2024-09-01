@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserRegistrationMutation } from "../redux/api/auth API Management/UserRegistration";
-import { Bounce, toast } from "react-toastify";
 import { PacmanLoader } from "react-spinners";
+import { Bounce, toast } from "react-toastify";
+import { useUserRegistrationMutation } from "../redux/api/auth API Management/UserRegistration";
 
 interface IFormInput {
   name: string;
@@ -10,19 +10,17 @@ interface IFormInput {
   address: string;
   phone: number;
   password: string;
-  role: "admin";
+  role: string;
 }
 
 export default function Registration() {
-  const [registerUser, { isLoading }] =
-    useUserRegistrationMutation();
+  const [registerUser, { isLoading }] = useUserRegistrationMutation();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      
-       await registerUser(data).unwrap();
+      await registerUser(data).unwrap();
       toast.success("Registration successful! Please login now.", {
         position: "top-left",
         autoClose: 5000,
@@ -36,7 +34,7 @@ export default function Registration() {
       });
       // Redirect to login page after successful registration
       navigate("/login");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Registration failed. Please try again.", {
         position: "top-left",

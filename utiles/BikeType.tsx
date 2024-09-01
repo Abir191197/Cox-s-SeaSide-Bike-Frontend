@@ -1,13 +1,15 @@
-export  interface TBike {
+import { Key } from "react";
+
+export interface TBike {
   _id: Key | null | undefined;
-  fullbike_name: string; // Renamed from 'name'
-  PerHour: number; // Renamed from 'pricePerHour' and changed to number
-  isAvailable?: boolean; // Optional, default is true
-  isDelete: boolean; // Renamed from 'isDeleted', default is false
-  imgSrc: string[]; // Renamed from 'imageLinks', default is empty array
+  fullbike_name: string;
+  PerHour: number;
+  isAvailable?: boolean;
+  isDelete: boolean;
+  imgSrc: string[];
   make: string;
   model: string;
-  year: string; // Changed to string
+  year: string;
   type: string;
   engine: {
     type: string;
@@ -30,8 +32,9 @@ export  interface TBike {
     starter: string;
     electronic_aids: string;
   };
-  weight: string; // Changed to string
+  weight: string;
 }
+
 
   export interface ReturnBikeResponse  {
    success: boolean;

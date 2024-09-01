@@ -1,19 +1,20 @@
 import React from "react";
 import { useMakePaymentUrlMutation } from "../../redux/api/Coustomer API Management/TotalPaymetUrl";
 import Footer from "../Landing Page/Footer";
+import Loading from "../../components/Loading";
 
 interface BikeInfo {
-  _id: string; // Bike ID
+  _id: string;
   fullbike_name: string;
   PerHour: number;
   imgSrc: string[];
 }
 
 interface RentalInfo {
-  _id: string; // Rental ID
-  bikeId: BikeInfo; // Bike details as an object
+  _id: string;
+  bikeId?: BikeInfo;
   bookingId: string;
-  TotalPayTran_id: string;
+  TotalPayTran_id?: string;
   startTime: string;
   returnTime: string;
   totalCost: number;
@@ -31,44 +32,44 @@ const UnpaidRentals: React.FC<UnpaidRentalsProps> = ({
   rentals,
   formatDateTime,
 }) => {
-  const [makePaymentUrl, { isLoading, isError,isSuccess }] = useMakePaymentUrlMutation();
+  const [makePaymentUrl, { isLoading, isError }] = useMakePaymentUrlMutation();
 
- 
+ const handlePayNowClick = async (TotalPayTran_id: string | undefined) => {
+   try {
+     const response = await makePaymentUrl(TotalPayTran_id).unwrap();
+     const paymentUrl = response.data.payment_url;
 
-  const handlePayNowClick = async (bikeId: string) => {
-    try {
-     
-      const response = await makePaymentUrl( bikeId).unwrap();
-    
-       const paymentUrl = response.data.payment_url;
+     if (paymentUrl) {
+       window.location.href = paymentUrl;
+     }
+   } catch (error) {
+     console.error("Failed to fetch payment URL:", error);
+   }
+ };
 
-       if (paymentUrl) {
-        window.location.href = paymentUrl;
-       }
-    } catch (error) {
-      console.error("Failed to fetch payment URL:", error);
-      // Optionally: Show an error message to the user
-    }
-  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <div>
+    <div className="bg-slate-200">
       <h3 className="text-lg font-semibold">Unpaid Rentals</h3>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {rentals.map((rental) => (
-            <div key={rental._id}>
+            <div key={rental._id} className="flex flex-col h-full">
               <div className="relative">
                 <div className="relative h-72 w-full overflow-hidden rounded-lg">
                   <img
-                    src={rental.bikeId.imgSrc[0]} // Assuming imgSrc is an array
-                    alt={rental.bikeId.fullbike_name}
+                    src={rental.bikeId?.imgSrc[0] || "default-image-url.jpg"}
+                    alt={rental.bikeId?.fullbike_name || "Bike Image"}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
                 <div className="relative mt-4">
                   <h3 className="text-sm font-medium text-gray-900">
-                    {rental.bikeId.fullbike_name}
+                    {rental.bikeId?.fullbike_name || "Bike Information Missing"}
                   </h3>
                   <p className="mt-1 text-base text-gray-500">
                     Advance Payment: {rental.advancePayment}
@@ -92,20 +93,20 @@ const UnpaidRentals: React.FC<UnpaidRentalsProps> = ({
                     className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
                   />
                   <p className="relative text-lg font-semibold text-white">
-                    Per Hour: ৳{rental.bikeId.PerHour}
+                    Per Hour: ৳{rental.bikeId?.PerHour || "N/A"}
                   </p>
                 </div>
               </div>
-              <div className="mt-6">
+              <div className="mt-6 flex-grow flex flex-col justify-end">
                 <button
                   className={`relative flex items-center justify-center rounded-md border border-transparent px-8 py-2 text-sm font-medium text-gray-900 ${
-                    rental.isReturned ==true
+                    rental.isReturned
                       ? "bg-green-600 hover:bg-green-200 cursor-pointer"
                       : "bg-red-300 cursor-not-allowed"
                   }`}
-                  disabled={rental.isReturned === false }
-                  onClick={() => handlePayNowClick(rental.bikeId._id)}>
-                  { "Pay Now"}
+                  disabled={!rental.isReturned}
+                  onClick={() => handlePayNowClick(rental.TotalPayTran_id)}>
+                  Pay Now
                 </button>
               </div>
               {isError && (

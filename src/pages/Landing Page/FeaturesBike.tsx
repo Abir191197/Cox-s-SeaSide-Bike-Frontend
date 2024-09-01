@@ -1,119 +1,121 @@
-
-const products = [
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-  },
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-  },
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-  },
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-  },
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    href: "#",
-    imageSrc:
-      "https://images.unsplash.com/photo-1719937206590-6cb10b099e0f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-  },
-  // Add more products as needed
-];
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { TBike } from "../../../utiles/BikeType";
+import Loading from "../../components/Loading";
+import { useGetAllFeaturesBikeQuery } from "../../redux/api/Coustomer API Management/getFeatureBike";
 
 export default function FeaturesBike() {
+  const [searchKeyWord, setSearchKeyWord] = useState("");
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("");
+  const limit = 8;
+
+  // Fetching data from the API
+  const { data, error, isLoading } = useGetAllFeaturesBikeQuery({
+    searchKeyWord,
+    page,
+    limit,
+    sort,
+  });
+
+  const handleSearch = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    setPage(1); // Reset to the first page on new search
+  };
+
+  if (isLoading) return <Loading />;
+  if (error) return <p>Error loading bikes!</p>;
+
   return (
-    <div className="bg-gray-50 py-16 sm:py-24 lg:mx-auto lg:max-w-full lg:px-8">
+    <div className="bg-gray-50 py-10 lg:mx-auto lg:max-w-full lg:px-8">
       <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Trending Bikes
+          Features Bike
         </h2>
-        <a
-          href="#"
-          className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-          See everything
-          <span aria-hidden="true"> &rarr;</span>
-        </a>
       </div>
 
-      <div className="mt-8 -mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-        {products.map((product) => (
+      {/* Search and Filter */}
+      <div className="flex justify-between mt-8 mb-6 px-4 sm:px-6 lg:px-0">
+        <form onSubmit={handleSearch} className="flex space-x-4">
+          <input
+            type="text"
+            placeholder="Search bikes..."
+            value={searchKeyWord}
+            onChange={(e) => setSearchKeyWord(e.target.value)}
+            className="px-4 py-2 border rounded-lg"
+          />
+          
+        </form>
+
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+          className="px-8 py-2 border rounded-lg">
+          <option value="">Sort By</option>
+          <option value="PerHour">Price Low to High</option>
+          <option value="-PerHour">Price High to Low</option>
+          <option value="engine.displacement">CC Low to High</option>
+          <option value="-engine.displacement">CC High to Low</option>
+        </select>
+      </div>
+
+      {/* Bike List */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+        {data?.data?.map((Bike: TBike) => (
           <div
-            key={product.id}
-            className=" bg-white rounded-lg shadow-2xl hover:shadow-lg transition-shadow duration-300">
-            <div className="w-fill h-50 rounded-t-lg overflow-hidden">
-           
-              <img
-                src={product.imageSrc}
-                alt={product.imageAlt}
-                className="h-full w-full object-cover"
-              />
+            key={Bike._id}
+            className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 relative">
+            <div className="w-full h-48 rounded-t-lg overflow-hidden">
+              {Bike.imgSrc && Bike.imgSrc.length > 0 ? (
+                <img
+                  src={Bike.imgSrc[0]}
+                  alt={Bike.fullbike_name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+                  <p>No Image Available</p>
+                </div>
+              )}
             </div>
+
             <div className="p-6 text-center">
               <h3 className="text-lg font-medium text-gray-900">
-                <a href={product.href}>{product.name}</a>
+                {Bike.fullbike_name}
               </h3>
-              <p className="mt-1 text-sm text-gray-500">{product.color}</p>
               <p className="mt-2 text-xl font-semibold text-gray-900">
-                {product.price}
+                ${Bike.PerHour} Per Hour
+              </p>
+              <p className="mt-1 text-sm font-medium text-black">
+                {Bike?.engine?.displacement
+                  ? parseFloat(Bike.engine.displacement).toFixed(0)
+                  : "N/A"}
+                CC
               </p>
               <div className="mt-4 flex justify-between space-x-4">
-                <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow hover:bg-indigo-500 transition-colors duration-200">
-                  Book Now
-                </button>
-                <button className="bg-gray-200 text-gray-900 py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition-colors duration-200">
-                  Overview
-                </button>
+                <Link to="/Login">
+                  <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow hover:bg-indigo-500 transition-colors duration-200">
+                    Book Now
+                  </button>
+                </Link>
+                <Link to="/Login">
+                  <button className="bg-gray-200 text-gray-900 py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition-colors duration-200">
+                    Overview
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-12 flex justify-center px-4 sm:hidden">
-        <a
-          href="#"
-          className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
-          See everything
-          <span aria-hidden="true"> &rarr;</span>
-        </a>
+      {/* See More Button */}
+      <div className="flex justify-center mt-8">
+        <Link to="/login">
+          <button className="bg-blue-500 text-white py-2 px-6 rounded-lg shadow hover:bg-blue-600 transition-colors duration-300">
+            See More
+          </button>
+        </Link>
       </div>
     </div>
   );

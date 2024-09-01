@@ -3,12 +3,29 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCreateBikeMutation } from "../../redux/api/Admin API Management/CreateBike";
 
-export default function CreateBikeForm({ onClose }) {
+// Define the onClose type
+type OnClose = () => void;
+
+// Define the form data interface
+interface CreateBikeFormData {
+  fullbike_name: string;
+  PerHour: number;
+  imgSrc: string;
+  make: string;
+  model: string;
+  year: string;
+}
+
+interface CreateBikeFormProps {
+  onClose: OnClose;
+}
+
+export default function CreateBikeForm({ onClose }: CreateBikeFormProps) {
   const {
     control,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm({
+  } = useForm<CreateBikeFormData>({
     defaultValues: {
       fullbike_name: "",
       PerHour: 0,
@@ -19,10 +36,9 @@ export default function CreateBikeForm({ onClose }) {
     },
   });
 
-  const [createBike] =
-    useCreateBikeMutation();
-  
-  const onSubmit = async (data) => {
+  const [createBike] = useCreateBikeMutation();
+
+  const onSubmit = async (data: CreateBikeFormData) => {
     try {
       await createBike(data).unwrap();
       if (onClose) onClose(); // Close the modal on success

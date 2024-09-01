@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 import { useGETAllRentalBikesQuery } from "../../redux/api/Admin API Management/AllRentals";
 import { useReturnBikeMutation } from "../../redux/api/Admin API Management/returnBike";
+import Footer from "../Landing Page/Footer";
 
 
 export default function AllRental() {
@@ -14,7 +15,7 @@ export default function AllRental() {
     useReturnBikeMutation();
 
   // Handle the bike return
-  const handleReturnId = async (rentalId: any) => {
+  const handleReturnId = async (rentalId: string) => {
     try {
       // Call the mutation with the rentalId and unwrap the response
       const res = (await ReturnBookingId(
@@ -49,7 +50,7 @@ export default function AllRental() {
 
   return (
     <>
-      <div className="px-4 sm:px-6 lg:px-8 pt-6">
+      <div className="px-4 sm:px-6 lg:px-8 pt-6 bg-slate-100">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -181,7 +182,8 @@ export default function AllRental() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div>{" "}
+            <Footer></Footer>
           </div>
         </div>
       </div>

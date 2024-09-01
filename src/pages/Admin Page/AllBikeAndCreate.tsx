@@ -29,6 +29,8 @@ export default function AllBikeAndCreate() {
   const [sort, setSort] = useState("");
   const limit = 8;
 
+  
+
   const user = useSelector(selectCurrentUser);
 
   // Fetching data from the API
@@ -42,9 +44,9 @@ export default function AllBikeAndCreate() {
   // Handle delete bike
   const [deleteBikeId] = useDeleteBikeMutation();
 
-  const handleDeleteBike = async (bikeId: string) => {
+  const handleDeleteBike = async (bikeId :string) => {
     try {
-      await deleteBikeId(  bikeId ).unwrap();
+      await deleteBikeId({ id: bikeId }).unwrap();
       toast.success("Bike Deleted Successfully");
     } catch (error) {
       if (error instanceof Error) {
