@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { useCreateRentalSlotMutation } from "../../redux/api/Coustomer API Management/CreateRentalSlot";
+import { DateTime } from "luxon";
 
 interface BookNowAndPayProps {
   onClose: () => void;
@@ -43,11 +44,12 @@ export default function BookNowAndPay({
     }
   };
 
-  const today = new Date();
-  const minDate = today.toISOString(); // UTC time
-  const maxDate = new Date(
-    today.getTime() + 7 * 24 * 60 * 60 * 1000
-  ).toISOString(); // UTC time
+  // Get the current time in Bangladesh Standard Time (BST)
+  const now = DateTime.now().setZone("Asia/Dhaka");
+
+  // Calculate the minDate and maxDate
+  const minDate: string = now.toISO(); // Current time in ISO format
+  const maxDate: string = now.plus({ days: 7 }).toISO(); // 7 days later in ISO format
 
   return (
     <Transition.Root show={true} as={Fragment}>
