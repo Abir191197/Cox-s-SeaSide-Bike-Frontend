@@ -29,14 +29,11 @@ export default function BookNowAndPay({
           startTime,
         }).unwrap();
 
-  
-
         if (res?.data?.payment_url) {
           window.open(res.data.payment_url, "_blank");
         } else {
           console.error("Payment URL not found in the response.");
         }
-        
       } catch (error) {
         console.error("Booking process failed", error);
       } finally {
@@ -46,12 +43,11 @@ export default function BookNowAndPay({
     }
   };
 
-  // Get the current date and 7 days later date for min and max attributes
   const today = new Date();
-  const minDate = today.toISOString().slice(0, 16); // Format without milliseconds and seconds
-  const maxDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 16);
+  const minDate = today.toISOString(); // UTC time
+  const maxDate = new Date(
+    today.getTime() + 7 * 24 * 60 * 60 * 1000
+  ).toISOString(); // UTC time
 
   return (
     <Transition.Root show={true} as={Fragment}>
