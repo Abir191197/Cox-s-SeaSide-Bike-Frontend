@@ -1,57 +1,50 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
-import { useCreateRentalSlotMutation } from "../../redux/api/Coustomer API Management/CreateRentalSlot";
+import { toast } from "react-toastify";
+import { useReturnBikeMutation } from "../../redux/api/Admin API Management/returnBike";
 
-interface BookNowAndPayProps {
+interface ReturnModalProps {
+  rentalId: string;
   onClose: () => void;
-  BikeData: any;
 }
 
-export default function BookNowAndPay({
-  BikeData,
-  onClose,
-}: BookNowAndPayProps) {
-  const [startTime, setStartTime] = useState<string>("");
+export default function ReturnModal({ rentalId, onClose }: ReturnModalProps) {
+  const [returnTime, setReturnTime] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  // Initialize the mutation hook
-  const [createRentalSlot, { isLoading }] = useCreateRentalSlotMutation();
+  const [returnBike, { isLoading }] = useReturnBikeMutation();
 
-  // Handle the booking and payment process
-  const handleBooking = async () => {
-    if (startTime) {
+  const handleReturn = async () => {
+    // Validate date format
+    const isValidDate = (dateString: string) => {
+      const date = new Date(dateString);
+      return !isNaN(date.getTime());
+    };
+
+    if (returnTime && rentalId && isValidDate(returnTime)) {
       setIsProcessing(true);
       try {
-        // Call the mutation with BikeData and startTime
-        const res = await createRentalSlot({
-          bikeId: BikeData._id,
-          startTime,
-        }).unwrap();
-
-  
-
-        if (res?.data?.payment_url) {
-          window.open(res.data.payment_url, "_blank");
-        } else {
-          console.error("Payment URL not found in the response.");
-        }
+        // Log the values to check them before sending to the API
         
+
+        await returnBike({ id: rentalId, returnTime }).unwrap();
+
+        toast.success("Bike returned successfully");
       } catch (error) {
-        console.error("Booking process failed", error);
+        console.error("Error:", error);
+        toast.error("Bike return failed");
       } finally {
         setIsProcessing(false);
         onClose(); // Close modal after processing
       }
+    } else {
+      toast.error("Please provide a valid return time and rental ID.");
     }
   };
 
-  // Get the current date and 7 days later date for min and max attributes
   const today = new Date();
-  const minDate = today.toISOString().slice(0, 16); // Format without milliseconds and seconds
-  const maxDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 16);
+  const minDate = today.toISOString().slice(0, 16);
 
   return (
     <Transition.Root show={true} as={Fragment}>
@@ -89,25 +82,19 @@ export default function BookNowAndPay({
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-semibold leading-6 text-gray-900">
-                      Book Your Ride
+                      Return Bike
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-600">
-                        Please select a start time for your booking. Make sure
-                        the time is within the next 7 days.
-                      </p>
-                      <p className="mt-2 text-sm font-bold text-orange-600">
-                        **Advance Payment of <strong>৳100</strong> required to
-                        confirm your booking.
+                        Please select the return date and time for the bike.
                       </p>
                     </div>
                     <div className="mt-4">
                       <input
                         type="datetime-local"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
+                        value={returnTime}
+                        onChange={(e) => setReturnTime(e.target.value)}
                         min={minDate}
-                        max={maxDate}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-base"
                       />
                     </div>
@@ -116,16 +103,16 @@ export default function BookNowAndPay({
                 <div className="mt-6 sm:mt-5 sm:flex sm:flex-row-reverse">
                   <button
                     type="button"
-                    disabled={!startTime || isProcessing || isLoading}
-                    onClick={handleBooking}
+                    disabled={!returnTime || isProcessing || isLoading}
+                    onClick={handleReturn}
                     className={`inline-flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm ${
-                      !startTime || isProcessing || isLoading
+                      !returnTime || isProcessing || isLoading
                         ? "opacity-50 cursor-not-allowed"
                         : ""
                     }`}>
                     {isProcessing || isLoading
                       ? "Processing..."
-                      : "Book Now And Pay"}
+                      : "Return Bike"}
                   </button>
                   <button
                     type="button"

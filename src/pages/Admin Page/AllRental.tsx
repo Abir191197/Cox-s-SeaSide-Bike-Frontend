@@ -1,25 +1,27 @@
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 import { useGETAllRentalBikesQuery } from "../../redux/api/Admin API Management/AllRentals";
 import { useReturnBikeMutation } from "../../redux/api/Admin API Management/returnBike";
 import Footer from "../Landing Page/Footer";
-import { DateTime } from "luxon"; // Import Luxon for time zone handling
+import { DateTime } from "luxon";
+import ReturnModal from "./ReturnModal";
 
 export default function AllRental() {
-  // Fetch all rental data
   const { data: AllRentalData, isLoading: AllRentalLoading } =
     useGETAllRentalBikesQuery(undefined);
+  const [returnBike, { isLoading: isReturning }] = useReturnBikeMutation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRentalId, setSelectedRentalId] = useState("");
 
-  // Define the return bike mutation
-  const [ReturnBookingId, { isLoading: isReturning }] = useReturnBikeMutation();
+  const handleReturnClick = (rentalId) => {
+    setSelectedRentalId(rentalId);
+    setModalOpen(true);
+  };
 
-  // Handle the bike return
-  const handleReturnId = async (rentalId: string) => {
+  const handleReturnSubmit = async (rentalId, returnTime) => {
     try {
-      // Call the mutation with the rentalId and unwrap the response
-      const res = await ReturnBookingId(rentalId).unwrap();
-
-      // Check if the response indicates success
+      const res = await returnBike({ rentalId, returnTime }).unwrap();
       if (res.success) {
         toast.success(res.message || "Bike returned successfully");
       } else {
@@ -117,7 +119,7 @@ export default function AllRental() {
                             <div className="h-12 w-12 flex-shrink-0">
                               <img
                                 className="h-12 w-12 rounded-full"
-                                src={rental.bikeId.imgSrc[0]} // Use the first image
+                                src={rental.bikeId.imgSrc[0]}
                                 alt={rental.bikeId.fullbike_name}
                               />
                             </div>
@@ -165,7 +167,7 @@ export default function AllRental() {
                         <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-semibold text-black sm:pr-0">
                           {rental.returnTime === null && (
                             <button
-                              onClick={() => handleReturnId(rental._id)}
+                              onClick={() => handleReturnClick(rental._id)}
                               className="bg-green-50 text-green-700">
                               Return
                             </button>
@@ -176,11 +178,19 @@ export default function AllRental() {
                   </tbody>
                 </table>
               </div>
-            </div>{" "}
+            </div>
             <Footer />
           </div>
         </div>
       </div>
+
+      {modalOpen && (
+        <ReturnModal
+          rentalId={selectedRentalId}
+          onClose={() => setModalOpen(false)}
+          onSubmit={handleReturnSubmit}
+        />
+      )}
     </>
   );
 }
