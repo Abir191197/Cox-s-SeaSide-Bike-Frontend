@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectCurrentUser } from "../../redux/api/auth API Management/authSlice";
 import { useGetWhoLoginQuery } from "../../redux/api/auth API Management/WhoLoginNowAPI";
-import Loader from "../../components/Loader";
+
 import CountGraph from "./CountGraph";
+import Loading from "../../components/Loading";
 
 
 
@@ -13,7 +14,7 @@ export default function AdminDash() {
   const { data: UserData, isLoading } = useGetWhoLoginQuery(undefined);
 
   if (isLoading) {
-    return <Loader></Loader>;
+    return <Loading></Loading>;
   }
 
   return (

@@ -139,18 +139,37 @@ export default function AllRental() {
                             {rental.userId.phone}
                           </div>
                         </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black">
-                          {DateTime.fromISO(rental.startTime)
-                            .setZone("Asia/Dhaka")
-                            .toLocaleString(DateTime.DATETIME_MED)}
+                          {new Date(rental.startTime).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            
+                            hour12: true,
+                            timeZone: "UTC", // Display in UTC, or specify a different time zone if needed
+                          })}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black">
-                          {rental.returnTime === null
-                            ? "Not Returned"
-                            : DateTime.fromISO(rental.returnTime)
-                                .setZone("Asia/Dhaka")
-                                .toLocaleString(DateTime.DATETIME_MED)}
+                          {rental.returnTime
+                            ? new Date(rental.returnTime).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                 
+                                  hour12: true,
+                                  timeZone: "UTC", // Display in UTC, or specify a different time zone if needed
+                                }
+                              )
+                            : "Not Returned"}
                         </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm font-medium text-black text-center">
                           <span
                             className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold ${

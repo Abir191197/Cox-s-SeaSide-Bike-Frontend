@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import { useGETAllRentalBikesQuery } from "../../redux/api/Admin API Management/AllRentals";
 
@@ -48,7 +48,7 @@ export default function CountGraph() {
       const waitingCount = rentals.filter(
         (r: { returnTime: string | null }) => !r.returnTime
       ).length;
-     
+
       const paidSum = rentals
         .filter(
           (r: { totalCostPayment: string }) => r.totalCostPayment === "Paid"
@@ -116,9 +116,7 @@ export default function CountGraph() {
             </dd>
           </div>
           <div className="mx-auto flex max-w-xs flex-col gap-y-4">
-            <dt className="text-base leading-7 text-gray-600">
-              Total Earning Total Pending Amount
-            </dt>
+            <dt className="text-base leading-7 text-gray-600">Total Earning</dt>
             <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
               {isVisible && (
                 <CountUp start={0} end={totalPaid} duration={5} prefix="৳" />
