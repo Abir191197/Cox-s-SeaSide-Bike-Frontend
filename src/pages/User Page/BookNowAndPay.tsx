@@ -19,32 +19,41 @@ export default function BookNowAndPay({
   const [createRentalSlot, { isLoading }] = useCreateRentalSlotMutation();
 
   // Handle the booking and payment process
-  const handleBooking = async () => {
-    if (startTime) {
-      setIsProcessing(true);
-      try {
-        // Call the mutation with BikeData and startTime
-        const res = await createRentalSlot({
-          bikeId: BikeData._id,
-          startTime,
-        }).unwrap();
+ const handleBooking = async () => {
+   if (startTime) {
+     setIsProcessing(true); // Set loading state
 
-  
+     try {
+       // Call the mutation with BikeData and startTime
+       const res = await createRentalSlot({
+         bikeId: BikeData._id,
+         startTime,
+       }).unwrap();
 
-        if (res?.data?.payment_url) {
-          window.open(res.data.payment_url, "_blank");
-        } else {
-          console.error("Payment URL not found in the response.");
-        }
-        
-      } catch (error) {
-        console.error("Booking process failed", error);
-      } finally {
-        setIsProcessing(false);
-        onClose(); // Close modal after processing
-      }
-    }
-  };
+       const paymentUrl = res?.data?.payment_url;
+
+       if (paymentUrl) {
+         // Validate if URL is properly formatted
+         if (
+           paymentUrl.startsWith("http://") ||
+           paymentUrl.startsWith("https://")
+         ) {
+           window.location.href = paymentUrl; // Redirect to payment URL in the same tab
+         } else {
+           console.error("Invalid payment URL format.");
+         }
+       } else {
+         console.error("Payment URL not found in the response.");
+       }
+     } catch (error) {
+       console.error("Booking process failed:", error);
+     } finally {
+       setIsProcessing(false); // Reset loading state
+       onClose(); // Close modal after processing
+     }
+   }
+ };
+
 
   // Get the current date and 7 days later date for min and max attributes
   const today = new Date();
